@@ -1,0 +1,68 @@
+/**
+*fontawsomeをクラス名で直接表示する
+*/
+
+.fa-bars:before{
+  content: "\f0c9";
+  font-family: FontAwesome;
+}
+
+.fa-user-circle:before{
+  content: "\f2bd";
+  font-family: FontAwesome;
+}
+
+.fa-bar-chart:before{
+  content: "\f080";
+  font-family: FontAwesome;
+}
+
+.fa-pencil:before{
+  content: "\f040";
+  font-family: FontAwesome;
+}
+
+.fa-flask:before{
+  content: "\f0c3";
+  font-family: FontAwesome;
+}
+
+.fa-share-alt:before{
+  content: "\f1e0";
+  font-family: FontAwesome;
+}
+
+.fa-question-circle:before{
+  content: "\f059";
+  font-family: FontAwesome;
+}
+
+.fa-question-circle-o:before{
+  content: "\f29c";
+  font-family: FontAwesome;
+}
+
+.fa-cloud-upload:before{
+  content: "\f0ee";
+  font-family: FontAwesome;
+}
+
+.fa-trash:before{
+  content: "\f1f8";
+  font-family: FontAwesome;
+}
+.fa-refresh:before{
+  content: "\f021";
+  font-family: FontAwesome;
+}
+
+.fa-thumb-tack:before{
+  content: "\f08d";
+  font-family: FontAwesome;
+}
+
+
+.fa-files-o:before{
+  content: "\f0c5";
+  font-family: FontAwesome;
+}
