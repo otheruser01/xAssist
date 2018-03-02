@@ -1,0 +1,166 @@
+<div class="pageDiv">
+<h1>プロジェクト管理</h1><button id="showNewProject" class="fa-pencil actBtn"><span>新しいプロジェクト</span></button>
+	<br>
+		<br>
+	<!-- 新規作成 -->
+	<div id="newProject" class="showDownAnimation">
+		<table class="dispCenter">
+			<thead>
+			<tr>
+				<th colspan="2">新しいプロジェクト</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>プロジェクト名</th><td><input id="name" type="text"/><td></td>
+				</tr>
+				<tr>
+					<th>識別子</th>
+					<td><input id="identifier" type="text" title="長さは1から100文字までです。 アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。最初の文字はアルファベットの小文字にしてください。"/>
+					</td>
+				</tr>
+				<tr>
+					<th>親プロジェクト</th>
+					<td><select id="parentID" size="1">...loading</select></td>
+				</tr>
+				<tr>
+					<th colspan="2">必要な作業チケットを選択して下さい。</th>
+				</tr>
+				<tr>
+					<th>基本設計</th>
+					<td>
+						<input type="checkbox" name="newProjectTicket"	id="01"><label for="01">システム確認書作成</label>
+					</td>
+				</tr>
+				<tr>
+					<th>環境設定</th>
+					<td>
+						<input type="checkbox"	name="newProjectTicket" id="02"><label for="02">開発用ブランチ作成</label>
+						<input type="checkbox"	name="newProjectTicket" id="03"><label for="03">デプロイ環境作成</label>
+						<input type="checkbox"	name="newProjectTicket" id="04"><label for="04">テスト環境チェックアウト</label>
+						<input type="checkbox"	name="newProjectTicket" id="05"><label for="05">テスト環境をwikiに登録</label>
+						<input type="checkbox"	name="newProjectTicket" id="06"><label for="06">テスト用DB作成</label>
+						<input type="checkbox"	name="newProjectTicket" id="07"><label for="07">DB環境をwikiに登録</label>
+						<input type="checkbox"	name="newProjectTicket" id="08"><label for="08">マニュアル環境作成</label>
+						<input type="checkbox"	name="newProjectTicket" id="09"><label for="09">社内環境削除</label>
+					</td>
+				</tr>
+				<tr>
+					<th>TG</th>
+					<td>
+						<input type="checkbox"	name="newProjectTicket"  id="10"><label for="10">スルーランテスト</label>
+						<input type="checkbox"	name="newProjectTicket"  id="11"><label for="11">排他テスト</label>
+						<input type="checkbox"	name="newProjectTicket"  id="12"><label for="12">締テスト</label>
+						<input type="checkbox"	name="newProjectTicket"  id="13"><label for="13">負荷テスト</label>
+						<input type="checkbox"	name="newProjectTicket"  id="14"><label for="14">データ交換テスト</label>
+					</td>
+				</tr>
+				<tr>
+				<th>サポート</th>
+					<td	>
+						<input type="checkbox" 	name="newProjectTicket" id="15"><label for="15">マニュアル作成</label>
+					</td>
+				</tr>
+				<tr>
+					<th>納品作業</th>
+					<td>
+						<input type="checkbox"	name="newProjectTicket" id="16"><label for="16">マージ・抜出作業</label>
+						<input type="checkbox"	name="newProjectTicket" id="17"><label for="17">納品時作業手順書作成</label>
+						<input type="checkbox"	name="newProjectTicket" id="18"><label for="18">担当者様確認用データ作成</label>
+						<input type="checkbox"	name="newProjectTicket" id="19"><label for="19">並行リリース</label>
+						<input type="checkbox"	name="newProjectTicket" id="20"><label for="20">本番リリース</label>
+					</td>
+				</tr>
+				<td colspan="2">
+					<span>
+						<button id="create" class="fa-pencil actBtn"><span>作成</span></button>
+					</span>
+				</td>
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<div id="ProjectListTemp" class="hideTempBlock">
+		<table class="dispCenter">
+			<thead>
+				<tr>
+					<th colspan="6" class="projectMainTitle" ></th>
+				</tr>
+				<tr>
+					<td colspan="6">
+						<!--
+						<input type="text" class="projectIdentifier"/>
+						<span class="floatRight"><button  class="deleteProjectBtn fa-trash actBtn"><span>削除</span></button></span>
+						 -->
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<!--
+				<tr>
+					<th>基本設計</th>
+					<td>
+						<div><span class="floatRight">12/22予定</span></div>
+					</td>
+					<th>環境設定</th>
+					<td>
+						<div><span>(WEB)50%[藤生、西野、尾崎]</span><span class="floatRight">12/22予定</span></div>
+						<div><span>(BGジョブ)50%[藤生]</span><span></span><span class="floatRight">12/22予定</span></div>
+					</td>
+					<th>PD</th>
+					<td>
+						<div><span>(WEB)50%[藤生、西野、尾崎]</span><span class="floatRight">12/22予定</span></div>
+						<div><span>(BGジョブ)50%[藤生]</span><span></span><span class="floatRight">12/22予定</span></div>
+					</td>
+				</tr>
+
+				<tr>
+					<th>単体PG</th>
+					<td>
+						<div><span>(WEB)<span class="pgPar"></span></span></div>
+					</td>
+					<th>単体TG</th>
+					<td>
+						<div><span>(WEB)<span class="tgPar"></span></div>
+					</td>
+					<th>結合TG</th>
+					<td>
+					</td>
+				</tr>				 -->
+				<!--
+				<tr>
+					<th>バグ/仕様変更</th>
+					<td>
+						<div>50%</div>
+						<div>50%</div>
+					</td>
+					<th>サポート</th>
+					<td>
+						<div></div>
+					</td>
+					<th>納品作業</th>
+					<td>
+						<div></div>
+						<div></div>
+					</td>
+				</tr>
+				-->
+				</tbody>
+					<tr>
+						<td colspan="6">
+						</td>
+					</tr>
+
+				<tfoot>
+			</tfoot>
+		</table>
+	</div>
+
+
+	<div id="ProjectList">
+	</div>
+
+
+
+
+</div>

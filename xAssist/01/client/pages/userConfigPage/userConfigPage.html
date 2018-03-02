@@ -1,0 +1,46 @@
+<div class="pageDiv">
+	<h1>個人設定</h1>
+		<table class="dispCenter">
+			<thead>
+			<tr class="textCenter">
+				<th colspan="3">
+					Redmineとの連携
+					<label title="Redmine連携の仕方" for="help_userConfigPage_01" class="fa-question-circle"></label>
+					<input type="checkbox" id="help_userConfigPage_01" class="opener"/>
+						<div class="popup">
+							テストテストテストテストテストテストテストテスト<br>
+								テスト<br>
+							テスト<br>
+						</div>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr class="textLeft">
+					<th>RedmineURL</th>
+					<td><input type="text"size="40"  id="userRedmineUrl" value="" tabindex="1" placeholder="http://○○○/redmine/"></td>
+					<td rowspan="2">
+						<button id="link" class="fa-share-alt actBtn" tabindex="3"/>
+					</td>
+				</tr>
+				<tr class="textLeft">
+					<th>APIキー</th>
+					<td>
+						<input type="text" 	size="40"  id="api_key" value="" tabindex="2">
+					</td>
+				</tr>
+				<tr  class="textLeft">
+					<th>連携状態</th>
+					<td  colspan="2" id="userStatus"></td>
+				</tr>
+				<tr class="textLeft">
+					<th>ID</th>
+					<td colspan="2" id="login"></td>
+				</tr>
+				<tr class="textLeft">
+					<th>ユーザー名</th>
+					<td colspan="2" id="firstname"></td>
+				</tr>
+				</tbody>
+		</table>
+</div>
