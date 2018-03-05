@@ -18,13 +18,12 @@ $title="01.Speaker Recognition APIテスト";?>
 			$("#export").click(function(){
 				stopRecording();
 				});
-
-        });
+	    });
 		  var audio_context;
 		  var recorder;
 
 
-  	  function startUserMedia(stream) {
+  	  		function startUserMedia(stream) {
 		    var input = audio_context.createMediaStreamSource(stream);
 		    recorder = new Recorder(input);
 		  }
@@ -44,10 +43,23 @@ $title="01.Speaker Recognition APIテスト";?>
 		      var url = URL.createObjectURL(blob);
 		      var au = document.getElementById('audio');
 
-		      au.controls = true;
-		      au.src = url;
-		      hf.href = url;
-		      hf.download = new Date().toISOString() + '.wav';
+		    //  au.controls = true;
+		    //  au.src = url;
+		    //  hf.href = url;
+		    //  hf.download = new Date().toISOString() + '.wav';
+
+				var fd = new FormData();
+				fd.append('fname', 'test.wav');
+				fd.append('data', blob);
+				$.ajax({
+				    type: 'POST',
+				    url: 'server/azureSpeaker.php',
+				    data: fd,
+				    processData: false,
+				    contentType: false
+				}).done(function(data) {
+				       console.log(data);
+				});
 		    });
 		  }
 		  window.onload = function init() {
