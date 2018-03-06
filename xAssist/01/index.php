@@ -43,10 +43,8 @@ $title="01.Speaker Recognition APIテスト";?>
 		      var url = URL.createObjectURL(blob);
 		      var au = document.getElementById('audio');
 
-		    //  au.controls = true;
-		    //  au.src = url;
-		    //  hf.href = url;
-		    //  hf.download = new Date().toISOString() + '.wav';
+		      au.controls = true;
+		      au.src = url;
 
 				var fd = new FormData();
 				fd.append('fname', 'test.wav');

@@ -42,9 +42,10 @@ var Recorder = exports.Recorder = (function () {
         _classCallCheck(this, Recorder);
 
         this.config = {
-            bufferLen: 4096,
-            numChannels: 2,
-            mimeType: 'audio/wav'
+            bufferLen:2048,
+            numChannels: 1,
+            mimeType: 'audio/wav',
+            sampleRate:16384
         };
         this.recording = false;
         this.callbacks = {
@@ -206,9 +207,9 @@ var Recorder = exports.Recorder = (function () {
                 /* channel count */
                 view.setUint16(22, numChannels, true);
                 /* sample rate */
-                view.setUint32(24, sampleRate, true);
+                view.setUint32(24,  16000, true);
                 /* byte rate (sample rate * block align) */
-                view.setUint32(28, sampleRate * 4, true);
+                view.setUint32(28, 16000 * 4, true);
                 /* block align (channel count * bytes per sample) */
                 view.setUint16(32, numChannels * 2, true);
                 /* bits per sample */
@@ -219,6 +220,8 @@ var Recorder = exports.Recorder = (function () {
                 view.setUint32(40, samples.length * 2, true);
 
                 floatTo16BitPCM(view, 44, samples);
+                console.log(numChannels);
+                console.log(sampleRate);
 
                 return view;
             }
@@ -227,7 +230,7 @@ var Recorder = exports.Recorder = (function () {
         this.worker.postMessage({
             command: 'init',
             config: {
-                sampleRate: this.context.sampleRate,
+                sampleRate: this.config.sampleRate,
                 numChannels: this.config.numChannels
             }
         });

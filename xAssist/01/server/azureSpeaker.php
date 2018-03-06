@@ -5,7 +5,6 @@ $post=$_POST;
 $file=$_FILES;
 set_time_limit(0);
 require_once dirname(__FILE__)."/azureConn.php";
-
 $azure=new AzureConn(AZURE_SPEAKER_RECOGNITION_URL,AZURE_SPEAKER_RECOGNITION_KEY);
 
 switch($mode){
@@ -34,27 +33,15 @@ function insertProfile($azure,$post,$file){
 
 function addSpeaker($azure,$post,$file){
 	//multipart/form-data application/octet-stream
-	var_dump($file);
+	/**/
 	$profile="";
-	$toUrl="../../sound/".$profile.".wav";
+	$toUrl="".$profile.".wav";
 	move_uploaded_file($file["data"]["tmp_name"],$toUrl);
-
-	$handle=fopen($toUrl,"rb");
-
-	$contents=fread($handle, filesize($toUrl));
-
-	$file_handle = fopen($toUrl,"rb");
-	while (!feof($file_handle)) {
-		$line = fgets($file_handle);
-		echo $line;
-	}
-	var_dump($line);
-
-	//var_dump($contents);
-	//$azure->setContentType("application/octet-stream");
-
-	//var_dump($azure->post("identificationProfiles",$profile."/enroll",$line));
-	fclose($file_handle);
+	$handle = fopen($toUrl, "rb");
+	$contents = fread($handle, filesize($toUrl));
+	$azure->setContentType("application/octet-stream");
+	var_dump($azure->binaryPost("identificationProfiles",$profile."/enroll",$contents));
+	fclose($handle);
 }
 
 function listSpeaker($azure,$post,$file){
