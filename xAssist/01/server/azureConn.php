@@ -51,6 +51,31 @@ class azureConn{
 		return json_decode(curl_exec($curl));
 	}
 
+
+	public function binaryPost($action,$urlOption,$data){
+		//return $this->post($action,$urlOption,$data);;
+		$url=$this->url."/".$action;
+		if($urlOption!=""){
+			$url.="/".$urlOption;
+		}
+
+		$headers=array(
+				"Content-Type:".$this->contentType,
+				"Ocp-Apim-Subscription-Key:".$this->apiKey);
+
+		$curl=curl_init($url);
+		curl_setopt($curl,CURLOPT_POST, TRUE);
+		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, FALSE);  //
+		curl_setopt($curl,CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl,CURLOPT_COOKIEJAR,      'cookie');
+		curl_setopt($curl,CURLOPT_COOKIEFILE,     'tmp');
+		curl_setopt($curl,CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($curl,CURLOPT_FOLLOWLOCATION, TRUE);
+		curl_setopt($curl, CURLOPT_POSTFIELDS,$data);
+		return json_decode(curl_exec($curl));
+	}
+
 	/**
 	 * @param unknown $faceId
 	 *  AzureとPOSTで通信
