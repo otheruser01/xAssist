@@ -101,23 +101,22 @@ class azureConn{
 		if($urlOption!=""){
 			$url.=$urlOption;
 		}
-
 		$headers=array(
 				"Content-Type:".$this->contentType,
 				"Ocp-Apim-Subscription-Key:".$this->apiKey);
-
-		$curl=curl_init($url);
-		echo $url;
-		curl_setopt($curl,CURLOPT_POST, TRUE);
-		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, FALSE);
-		curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, FALSE);  //
-		curl_setopt($curl,CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($curl,CURLOPT_COOKIEJAR,      'cookie');
-		curl_setopt($curl,CURLOPT_COOKIEFILE,     'tmp');
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl,CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($curl,CURLOPT_FOLLOWLOCATION, TRUE);
 		curl_setopt($curl, CURLOPT_POSTFIELDS,$data);
-		return curl_exec($curl);
+		curl_setopt($curl, CURLOPT_HEADER, true);
+		curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+		$html =  curl_exec($curl);
+		$arr=explode("\n",$html);
+
+		var_dump($html);
+		curl_close($curl);
+		$http=str_replace("Operation-Location: ","",$arr[7]);
+		return $http;
 	}
 
 	/**

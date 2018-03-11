@@ -44,8 +44,7 @@ var Recorder = exports.Recorder = (function () {
         this.config = {
             bufferLen:2048,
             numChannels: 1,
-            mimeType: 'audio/wav',
-            sampleRate:16384
+            mimeType: 'audio/wav'
         };
         this.recording = false;
         this.callbacks = {
@@ -220,9 +219,6 @@ var Recorder = exports.Recorder = (function () {
                 view.setUint32(40, samples.length * 2, true);
 
                 floatTo16BitPCM(view, 44, samples);
-                console.log(numChannels);
-                console.log(sampleRate);
-
                 return view;
             }
         }, self);

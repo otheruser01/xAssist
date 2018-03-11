@@ -6,8 +6,7 @@ $file=$_FILES;
 set_time_limit(0);
 require_once dirname(__FILE__)."/azureConn.php";
 $azure=new AzureConn(AZURE_SPEAKER_RECOGNITION_URL,AZURE_SPEAKER_RECOGNITION_KEY);
-
-switch($mode){
+switch($post["mode"]){
 	case "search"://音声から話者認識
 		searchSpeaker($azure,$post,$file);
 	break;
@@ -17,34 +16,59 @@ switch($mode){
 	case "add":	//話者の音声を追加
 		addSpeaker($azure,$post,$file);
 	break;
+	case "insAndAdd":	//話者の音声を追加
+		insertAndAddSpeaker($azure,$post,$file);
+		break;
 	case "list"://プロフィール一覧を取得
 		listSpeaker($azure,$post,$file);
 	break;
 }
 
 function searchSpeaker($azure,$post,$file){
+	$profiles="849a852a-09a6-477c-8a36-e1fd26ef07d6,dea1ff4e-64f9-4a59-93f0-c58a48a9b4c4";
+	$toUrl="search.wav";
+	move_uploaded_file($file["data"]["tmp_name"],$toUrl);
+	$handle = fopen($toUrl, "rb");
+	$contents = fread($handle, filesize($toUrl));
+	$azure->setContentType("application/octet-stream");
+	var_dump($azure->binaryPost2("identify","?identificationProfileIds=".$profiles."&shortAudio=true",$contents));
+	fclose($contents);
 }
 
 function insertProfile($azure,$post,$file){
 	//プロフィール作成
 	$insertProfile=$azure->post("identificationProfiles","",array("locale"=>"en-US"));
-	//object(stdClass)#2 (1) { ["identificationProfileId"]=> string(36) "3646ae62-3eab-4ed2-ac45-42272554c806" }
 }
 
 function addSpeaker($azure,$post,$file){
 	//multipart/form-data application/octet-stream
 	/**/
-	$profile="";
+	$profile="dea1ff4e-64f9-4a59-93f0-c58a48a9b4c4";
 	$toUrl="".$profile.".wav";
 	move_uploaded_file($file["data"]["tmp_name"],$toUrl);
 	$handle = fopen($toUrl, "rb");
 	$contents = fread($handle, filesize($toUrl));
 	$azure->setContentType("application/octet-stream");
-	var_dump($azure->binaryPost("identificationProfiles",$profile."/enroll",$contents));
-	fclose($handle);
+	var_dump($azure->binaryPost("identificationProfiles","/".$profile."/enroll?shortAudio=true",$contents));
+	fclose($contents);
+}
+//プロフィール登録と音声登録同時
+function insertAndAddSpeaker($azure,$post,$file){
+	$profile=$insertProfile=$azure->post("identificationProfiles","",array("locale"=>"en-US"));
+	if($profile->identificationProfileId!=null){
+		$profileID=$profile->identificationProfileId;
+		$toUrl="".$profileID."_".$post["name"].".wav";
+		move_uploaded_file($file["data"]["tmp_name"],$toUrl);
+		$handle = fopen($toUrl, "rb");
+		$contents = fread($handle, filesize($toUrl));
+		$azure->setContentType("application/octet-stream");
+		var_dump($azure->binaryPost("identificationProfiles","/".$profileID."/enroll?shortAudio=true",$contents));
+		fclose($contents);
+	}
 }
 
 function listSpeaker($azure,$post,$file){
+	var_dump($azure->get("identificationProfiles","/849a852a-09a6-477c-8a36-e1fd26ef07d6/train"));
 }
 /**
  *

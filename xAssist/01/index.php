@@ -11,17 +11,21 @@ $title="01.Speaker Recognition APIテスト";?>
 		<script src="js/common/lib/jquery-3.2.1.min.js"></script>
 		<script src="js/common/lib/recorder.js"></script>
 		<script>
+
+		var name="";
         $(function(){
 			$("#record").click(function(){
 				startRecording();
 				});
 			$("#export").click(function(){
+				name=$("#name").val();
 				stopRecording();
 				});
 	    });
-		  var audio_context;
-		  var recorder;
 
+
+		var audio_context;
+		var recorder;
 
   	  		function startUserMedia(stream) {
 		    var input = audio_context.createMediaStreamSource(stream);
@@ -42,13 +46,15 @@ $title="01.Speaker Recognition APIテスト";?>
 		    recorder && recorder.exportWAV(function(blob) {
 		      var url = URL.createObjectURL(blob);
 		      var au = document.getElementById('audio');
-
+				$()
 		      au.controls = true;
 		      au.src = url;
 
 				var fd = new FormData();
 				fd.append('fname', 'test.wav');
 				fd.append('data', blob);
+				fd.append('mode', "search");
+				fd.append('name', name);
 				$.ajax({
 				    type: 'POST',
 				    url: 'server/azureSpeaker.php',
@@ -79,8 +85,9 @@ $title="01.Speaker Recognition APIテスト";?>
 	<body>
 		<h1><?php echo $title;?></h1>
 		音声を録音してSpeakerRecogntionに保存。
+		<input type="text" id="name"/>
 		<button id="record">録音</button>
-		<button id="export">出力</button>
+		<button id="export">登録</button>
 		<audio id="audio" controls></audio>
 	</body>
 </html>
