@@ -5,6 +5,14 @@ $post=$_POST;
 $file=$_FILES;
 set_time_limit(0);
 require_once dirname(__FILE__)."/azureConn.php";
+require_once dirname(__FILE__)."/fileClass.php";
+
+$file=new fireClass("./files/test.txt");
+$file->write("aieuo");
+echo $file->read();
+
+return;
+
 $azure=new AzureConn(AZURE_SPEAKER_RECOGNITION_URL,AZURE_SPEAKER_RECOGNITION_KEY);
 switch($post["mode"]){
 	case "search"://音声から話者認識
@@ -26,12 +34,15 @@ switch($post["mode"]){
 
 function searchSpeaker($azure,$post,$file){
 	$profiles="849a852a-09a6-477c-8a36-e1fd26ef07d6,dea1ff4e-64f9-4a59-93f0-c58a48a9b4c4";
-	$toUrl="search.wav";
+	$toUrl="./files/search.wav";
 	move_uploaded_file($file["data"]["tmp_name"],$toUrl);
 	$handle = fopen($toUrl, "rb");
 	$contents = fread($handle, filesize($toUrl));
 	$azure->setContentType("application/octet-stream");
-	var_dump($azure->binaryPost2("identify","?identificationProfileIds=".$profiles."&shortAudio=true",$contents));
+	$url=$azure->binaryPostAccepted("identify","?identificationProfileIds=".$profiles."&shortAudio=true",$contents);
+	sleep(3);
+	$azure->setContentType("application/json");
+	var_dump($azure->getUrl($url));
 	fclose($contents);
 }
 
