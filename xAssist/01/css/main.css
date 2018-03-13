@@ -1,0 +1,76 @@
+.table {
+	border:solid;
+}
+.table th{
+	border:solid;
+}
+.table td{
+	border:solid;
+}
+
+.loadDiv{
+	width:50px;
+	height:50px;
+	position : relative;
+	border-radius:50%;
+}
+
+.loadDiv *{
+	background:rgba(100,100,100,0.6);
+	position : absolute;
+	border-radius:30%;
+}
+.load1{
+	clear:both;
+	top:0%;left:0%;
+	width:50%;height:50%;
+	animation : load1 0.9s;
+	animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes load1{
+  0%{ 	left:0%;width:50%;height:50%;}
+  50%{ 	left:50%;width:30%;height:30%;border-radius:50%;}
+  100% {left:50%;width:50%;height:50%;}
+}
+
+.load2{
+	clear:both;
+	top:0;left:50%;
+	width:50%;height:50%;
+	animation : load2 0.9s;
+	animation-iteration-count: infinite;
+}
+@-webkit-keyframes load2{
+  0%{ 	top:0%;width:50%;height:50%;}
+  50%{ 	top:50%;width:30%;height:30%;border-radius:50%;}
+  100%{	top:50%;width:50%;height:50%;}
+}
+
+
+.load3{
+	clear:both;
+	top:50%;left:50%;
+	width:50%;height:50%;
+	animation : load3 0.9s;
+	animation-iteration-count: infinite;
+}
+@-webkit-keyframes load3{
+  0%{ 	left:50%;width:50%;height:50%;}
+  50%{ 	left:0%;width:30%;height:30%;border-radius:50%;}
+  100%{	left:0%;width:50%;height:50%;}
+}
+
+.load4{
+	clear:both;
+	width:50%;height:50%;
+	top50%;left:0%;
+	animation : load4 0.9s;
+	animation-iteration-count: infinite;
+}
+@-webkit-keyframes load4{
+  0%{ 	top:50%;width:50%;height:50%;}
+  50%{ 	top:0%;width:30%;height:30%;border-radius:50%;}
+  100%{	top:0%;width:50%;height:50%;}
+}
+

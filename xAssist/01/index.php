@@ -8,10 +8,10 @@ $title="01.Speaker Recognition APIテスト";?>
 		<meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no">
 		<meta http-equiv=”Pragma” content=”no-cache”>
 		<meta http-equiv=”Cache-Control” content=”no-cache”>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 		<script src="js/common/lib/jquery-3.2.1.min.js"></script>
 		<script src="js/common/lib/recorder.js"></script>
 		<script>
-
 		var name="";
         $(function(){
 			$("#record").click(function(){
@@ -22,7 +22,6 @@ $title="01.Speaker Recognition APIテスト";?>
 				stopRecording();
 				});
 	    });
-
 
 		var audio_context;
 		var recorder;
@@ -83,11 +82,47 @@ $title="01.Speaker Recognition APIテスト";?>
 	</script>
 	</head>
 	<body>
+
 		<h1><?php echo $title;?></h1>
-		音声を録音してSpeakerRecogntionに保存。
-		<input type="text" id="name"/>
-		<button id="record">録音</button>
-		<button id="export">登録</button>
-		<audio id="audio" controls></audio>
+
+			<div class="loadDiv">
+				<div class="load1"></div>
+				<div class="load2"></div>
+				<div class="load3"></div>
+				<div class="load4"></div>
+		</div>
+		<h2>登録者</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>ユーザー名</th>
+						<th>AzureID</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>a</td>
+						<td>b</td>
+					</tr>
+					<tr>
+						<td>c</td>
+						<td>d</td>
+					</tr>
+				</tbody>
+				<tfoot>
+				</tfoot>
+			</table>
+		<h2>1.声を登録</h2>
+			<ol>
+				<li>ユーザ名を入力して録音ボタンを押す。</li>
+				<li>録音は30秒以上の音声を登録すること</li>
+			</ol>
+			<br>
+			ユーザー名:<input type="text" id="userName"/>
+			<button id="record">録音</button>
+		<h2>2.声の主を認識</h2>
+			なんか喋ってください。<br>
+		<button id="export">認識開始</button>
+		<div></div>
 	</body>
 </html>
