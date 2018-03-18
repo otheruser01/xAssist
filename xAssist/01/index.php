@@ -8,110 +8,115 @@ $title="01.Speaker Recognition APIテスト";?>
 		<meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no">
 		<meta http-equiv=”Pragma” content=”no-cache”>
 		<meta http-equiv=”Cache-Control” content=”no-cache”>
-		<script src="js/common/lib/jquery-3.2.1.min.js"></script>
+		<script src="import.php"></script>
 		<script>
-		var localMediaStream = null;
-        var localScriptProcessor = null;
-        audioData = []; // 録音データ
-        var bufferSize = 4096;
-        var onAudioProcess = function(e) {
-          var input = e.inputBuffer.getChannelData(0);
-          var bufferData = new Float32Array(bufferSize);
-          for (var i = 0; i < bufferSize; i++) {
-            bufferData[i] = input[i];
-          }
-          audioData.push(bufferData);
-        };
-        var startRecording = function() {
-        	var audioContext=new AudioContext();
-          navigator.getUserMedia(
-            { audio: true },
-            function(stream) {
-              localMediaStream = stream;
-              var scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
-              localScriptProcessor = scriptProcessor;
-              var mediastreamsource = audioContext.createMediaStreamSource(stream);
-              mediastreamsource.connect(scriptProcessor);
-              scriptProcessor.onaudioprocess = onAudioProcess;
-              scriptProcessor.connect(audioContext.destination);
-            },
-            function(e) {
-              console.log(e);
-            }
-          );
-          return audioContext;
-        };
+			var name="";
+			var rec=new recordClass();
+		$(function(){
+			rec.init(window,$("body"));
 
-        var exportWAV = function(audioContext,audioData) {
-            var encodeWAV = function(samples, sampleRate) {
-              var buffer = new ArrayBuffer(44 + samples.length * 2);
-              var view = new DataView(buffer);
 
-              var writeString = function(view, offset, string) {
-                for (var i = 0; i < string.length; i++){
-                  view.setUint8(offset + i, string.charCodeAt(i));
-                }
-              };
+			//ユーザー登録
+			$("#record").click(function(){
+				rec.start();
+			});
+			$("#export").click(function(){
+				rec.appendFormData("mode", "insAndAdd");
+				rec.end();
+				updateList();
+			});
 
-              var floatTo16BitPCM = function(output, offset, input) {
-                for (var i = 0; i < input.length; i++, offset += 2){
-                  var s = Math.max(-1, Math.min(1, input[i]));
-                  output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-                }
-              };
+			//ユーザー検索
+			$("#idenRecord").click(function(){
+				rec.start();
+			});
+			$("#idenExport").click(function(){
+				rec.appendFormData("mode", "search");
+				rec.end();
+			});
 
-              writeString(view, 0, 'RIFF');  // RIFFヘッダ
-              view.setUint32(4, 32 + samples.length * 2, true); // これ以降のファイルサイズ
-              writeString(view, 8, 'WAVE'); // WAVEヘッダ
-              writeString(view, 12, 'fmt '); // fmtチャンク
-              view.setUint32(16, 16, true); // fmtチャンクのバイト数
-              view.setUint16(20, 1, true); // フォーマットID
-              view.setUint16(22, 1, true); // チャンネル数
-              view.setUint32(24, sampleRate, true); // サンプリングレート
-              view.setUint32(28, sampleRate * 2, true); // データ速度
-              view.setUint16(32, 2, true); // ブロックサイズ
-              view.setUint16(34, 16, true); // サンプルあたりのビット数
-              writeString(view, 36, 'data'); // dataチャンク
-              view.setUint32(40, samples.length * 2, true); // 波形データのバイト数
-              floatTo16BitPCM(view, 44, samples); // 波形データ
 
-              return view;
-            };
+			$("#userName").change(function(){
+				rec.appendFormData("name",$(this).val());
+			});
 
-            var mergeBuffers = function(audioData) {
-              var sampleLength = 0;
-              for (var i = 0; i < audioData.length; i++) {
-                sampleLength += audioData[i].length;
-              }
-              var samples = new Float32Array(sampleLength);
-              var sampleIdx = 0;
-              for (var i = 0; i < audioData.length; i++) {
-                for (var j = 0; j < audioData[i].length; j++) {
-                  samples[sampleIdx] = audioData[i][j];
-                  sampleIdx++;
-                }
-              }
-              return samples;
-            };
-
-            var dataview = encodeWAV(mergeBuffers(audioData), audioContext.sampleRate);
-            var audioBlob = new Blob([dataview], { type: 'audio/wav' });
-
-            var myURL = window.URL || window.webkitURL;
-            var url = myURL.createObjectURL(audioBlob);
-            return url;
-          };
-		var  audioContext= startRecording();
-        $(function(){
-	        $("#export").on('click', function() {
-	        	console.log(exportWAV(audioContext,audioData));
-	        });
-        });
+			//ユーザーリスト更新
+			$("#update").click(function(){
+				updateList();
+			});
+			//リスト表示
+			function updateList(){
+				$("#list *").remove();
+				var fd = new FormData();
+				fd.append("mode","list");
+				$.ajax({
+				    type: 'POST',
+				    url: "server/azureSpeaker.php",
+				    data: fd,
+				    processData: false,
+				    contentType: false
+				}).done(function(data) {
+					var str="";
+					var arr=JSON.parse(data);
+					for(var key in arr){
+						str+="<tr><td>"+arr[key]["name"]+"</td><td>"+key;
+						str+='<input class="apiKeys" type="hidden" value="'+key+'"/>';
+						str+="</td></tr>";
+					}
+					$("#list").append(str);
+			       console.log(data);
+				});
+			}
+			updateList();
+	    });
 	</script>
 	</head>
 	<body>
+
 		<h1><?php echo $title;?></h1>
-		音声を録音してSpeakerRecogntionに保存。
-		<button id="export">出力</button>
+
+			<div class="loadDiv">
+				<div class="load1"></div>
+				<div class="load2"></div>
+				<div class="load3"></div>
+				<div class="load4"></div>
+		</div>
+		<h2>登録者</h2>
+			<button id="update">更新</button>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>ユーザー名</th>
+						<th>AzureID</th>
+					</tr>
+				</thead>
+				<tbody id="list">
+					<tr>
+						<td>a</td>
+						<td>b</td>
+					</tr>
+					<tr>
+						<td>c</td>
+						<td>d</td>
+					</tr>
+				</tbody>
+				<tfoot>
+				</tfoot>
+			</table>
+		<h2>1.声を登録</h2>
+			<ol>
+				<li>ユーザ名を入力して録音ボタンを押す。</li>
+				<li>録音は30秒以上の音声を登録すること</li>
+			</ol>
+			<br>
+			ユーザー名:<input type="text" id="userName"/>
+			<button id="record">録音</button>
+			<button id="export">録音終了</button>
+		<h2>2.声の主を認識</h2>
+			なんか喋ってください。<br>
+		<div></div>
+			<button id="idenRecord">録音</button>
+			<button id="idenExport">録音終了</button>
+		<audio id="audio"></audio>
 	</body>
 </html>
