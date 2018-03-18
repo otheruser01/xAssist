@@ -39,7 +39,6 @@ class azureConn{
 				"Content-Type:".$this->contentType,
 				"Ocp-Apim-Subscription-Key:".$this->apiKey);
 		$curl=curl_init($url);
-		echo $url;
 		curl_setopt($curl,CURLOPT_POST, TRUE);
 		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, FALSE);  //
@@ -74,7 +73,6 @@ class azureConn{
 				"Content-Type:".$this->contentType,
 				"Ocp-Apim-Subscription-Key:".$this->apiKey);
 		$curl=curl_init($url);
-		echo $url;
 		curl_setopt($curl,CURLOPT_CUSTOMREQUEST, 'GET');
 		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, FALSE);  //
@@ -95,7 +93,6 @@ class azureConn{
 				"Content-Type:".$this->contentType,
 				"Ocp-Apim-Subscription-Key:".$this->apiKey);
 		$curl=curl_init($url);
-		echo $url;
 		curl_setopt($curl,CURLOPT_POST, TRUE);
 		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, FALSE);  //

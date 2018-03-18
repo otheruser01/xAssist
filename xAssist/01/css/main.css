@@ -8,6 +8,10 @@
 	border:solid;
 }
 
+
+/**
+ロード画面
+**/
 .loadDiv{
 	width:50px;
 	height:50px;
@@ -16,61 +20,62 @@
 }
 
 .loadDiv *{
-	background:rgba(100,100,100,0.6);
 	position : absolute;
-	border-radius:30%;
+	width:40%;height:40%;
+	border-radius:50%;
 }
+
 .load1{
 	clear:both;
 	top:0%;left:0%;
-	width:50%;height:50%;
-	animation : load1 0.9s;
+	animation : load1 2s;
 	animation-iteration-count: infinite;
 }
-
 @-webkit-keyframes load1{
-  0%{ 	left:0%;width:50%;height:50%;}
-  50%{ 	left:50%;width:30%;height:30%;border-radius:50%;}
-  100% {left:50%;width:50%;height:50%;}
+  0%{ 	background:rgba(100,100,100,1.0);}
+  25%{ 	background:rgba(100,100,100,0.0);left:50%;}
+  50%{ 	background:rgba(100,100,100,0.0);}
+  75% {	background:rgba(100,100,100,0.0);rotate();}
 }
 
 .load2{
 	clear:both;
 	top:0;left:50%;
-	width:50%;height:50%;
-	animation : load2 0.9s;
+	animation : load2 2s;
 	animation-iteration-count: infinite;
 }
 @-webkit-keyframes load2{
-  0%{ 	top:0%;width:50%;height:50%;}
-  50%{ 	top:50%;width:30%;height:30%;border-radius:50%;}
-  100%{	top:50%;width:50%;height:50%;}
+  0%{ 	background:rgba(100,100,100,0.0);}
+  25%{ 	background:rgba(100,100,100,1.0);}
+  50%{ 	background:rgba(100,100,100,0.0);top:50%;}
+  75% {	background:rgba(100,100,100,0.0);}
 }
 
 
 .load3{
 	clear:both;
 	top:50%;left:50%;
-	width:50%;height:50%;
-	animation : load3 0.9s;
+	animation : load3 2s;
 	animation-iteration-count: infinite;
 }
 @-webkit-keyframes load3{
-  0%{ 	left:50%;width:50%;height:50%;}
-  50%{ 	left:0%;width:30%;height:30%;border-radius:50%;}
-  100%{	left:0%;width:50%;height:50%;}
+  0%{ 	background:rgba(100,100,100,0.0);}
+  25%{ 	background:rgba(100,100,100,0.0);}
+  50%{ 	background:rgba(100,100,100,1.0);}
+  75% {	background:rgba(100,100,100,0.0);left:0%;}
 }
 
 .load4{
 	clear:both;
-	width:50%;height:50%;
-	top50%;left:0%;
-	animation : load4 0.9s;
+	top:50%;left:0%;
+	animation : load4 2s;
 	animation-iteration-count: infinite;
 }
 @-webkit-keyframes load4{
-  0%{ 	top:50%;width:50%;height:50%;}
-  50%{ 	top:0%;width:30%;height:30%;border-radius:50%;}
-  100%{	top:0%;width:50%;height:50%;}
+  0%{ 	background:rgba(100,100,100,0.0);}
+  25%{ 	background:rgba(100,100,100,0.0);}
+  50%{ 	background:rgba(100,100,100,0.0);}
+  75% {	background:rgba(100,100,100,1.0);}
+  100%{ background:rgba(100,100,100,0.0);top:0%;}
 }
 

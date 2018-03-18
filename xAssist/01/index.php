@@ -8,77 +8,67 @@ $title="01.Speaker Recognition APIテスト";?>
 		<meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no">
 		<meta http-equiv=”Pragma” content=”no-cache”>
 		<meta http-equiv=”Cache-Control” content=”no-cache”>
-		<link rel="stylesheet" type="text/css" href="css/main.css">
-		<script src="js/common/lib/jquery-3.2.1.min.js"></script>
-		<script src="js/common/lib/recorder.js"></script>
+		<script src="import.php"></script>
 		<script>
-		var name="";
-        $(function(){
+			var name="";
+			var rec=new recordClass();
+		$(function(){
+			rec.init(window,$("body"));
+
+
+			//ユーザー登録
 			$("#record").click(function(){
-				startRecording();
-				});
+				rec.start();
+			});
 			$("#export").click(function(){
-				name=$("#name").val();
-				stopRecording();
-				});
-	    });
+				rec.appendFormData("mode", "insAndAdd");
+				rec.end();
+				updateList();
+			});
 
-		var audio_context;
-		var recorder;
+			//ユーザー検索
+			$("#idenRecord").click(function(){
+				rec.start();
+			});
+			$("#idenExport").click(function(){
+				rec.appendFormData("mode", "search");
+				rec.end();
+			});
 
-  	  		function startUserMedia(stream) {
-		    var input = audio_context.createMediaStreamSource(stream);
-		    recorder = new Recorder(input);
-		  }
 
-		  function startRecording() {
-		    recorder && recorder.record();
-		  }
+			$("#userName").change(function(){
+				rec.appendFormData("name",$(this).val());
+			});
 
-		  function stopRecording() {
-		    recorder && recorder.stop();
-		    createDownloadLink();
-		    recorder.clear();
-		  }
-
-		  function createDownloadLink() {
-		    recorder && recorder.exportWAV(function(blob) {
-		      var url = URL.createObjectURL(blob);
-		      var au = document.getElementById('audio');
-				$()
-		      au.controls = true;
-		      au.src = url;
-
+			//ユーザーリスト更新
+			$("#update").click(function(){
+				updateList();
+			});
+			//リスト表示
+			function updateList(){
+				$("#list *").remove();
 				var fd = new FormData();
-				fd.append('fname', 'test.wav');
-				fd.append('data', blob);
-				fd.append('mode', "search");
-				fd.append('name', name);
+				fd.append("mode","list");
 				$.ajax({
 				    type: 'POST',
-				    url: 'server/azureSpeaker.php',
+				    url: "server/azureSpeaker.php",
 				    data: fd,
 				    processData: false,
 				    contentType: false
 				}).done(function(data) {
-				       console.log(data);
+					var str="";
+					var arr=JSON.parse(data);
+					for(var key in arr){
+						str+="<tr><td>"+arr[key]["name"]+"</td><td>"+key;
+						str+='<input class="apiKeys" type="hidden" value="'+key+'"/>';
+						str+="</td></tr>";
+					}
+					$("#list").append(str);
+			       console.log(data);
 				});
-		    });
-		  }
-		  window.onload = function init() {
-			    try {
-			      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-			      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-			      window.URL = window.URL || window.webkitURL;
-			      audio_context = new AudioContext;
-			    } catch (e) {
-			      alert('No web audio support in this browser!');
-			    }
-
-			    navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-			      __log('No live audio input: ' + e);
-			    });
-			  }
+			}
+			updateList();
+	    });
 	</script>
 	</head>
 	<body>
@@ -92,6 +82,7 @@ $title="01.Speaker Recognition APIテスト";?>
 				<div class="load4"></div>
 		</div>
 		<h2>登録者</h2>
+			<button id="update">更新</button>
 			<table class="table">
 				<thead>
 					<tr>
@@ -99,7 +90,7 @@ $title="01.Speaker Recognition APIテスト";?>
 						<th>AzureID</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="list">
 					<tr>
 						<td>a</td>
 						<td>b</td>
@@ -120,9 +111,12 @@ $title="01.Speaker Recognition APIテスト";?>
 			<br>
 			ユーザー名:<input type="text" id="userName"/>
 			<button id="record">録音</button>
+			<button id="export">録音終了</button>
 		<h2>2.声の主を認識</h2>
 			なんか喋ってください。<br>
-		<button id="export">認識開始</button>
 		<div></div>
+			<button id="idenRecord">録音</button>
+			<button id="idenExport">録音終了</button>
+		<audio id="audio"></audio>
 	</body>
 </html>
