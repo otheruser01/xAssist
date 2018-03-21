@@ -13,69 +13,65 @@
 ロード画面
 **/
 .loadDiv{
-	width:50px;
-	height:50px;
+	display: inline-block;
+	width : 4em;
+	height : 1em;
 	position : relative;
-	border-radius:50%;
 }
 
 .loadDiv *{
-	position : absolute;
-	width:40%;height:40%;
+	width:25%;
+	height:100%;
 	border-radius:50%;
+	background :rgba(100,100,100,1.0);
+	float : left;
 }
 
-.load1{
-	clear:both;
-	top:0%;left:0%;
-	animation : load1 2s;
+.loadDiv *:nth-child(1){
+	animation : load1 0.5s;
+	animation-iteration-count: infinite;
+}
+.loadDiv *:nth-child(2){
+
+	animation : load2 0.5s;
+	animation-iteration-count: infinite;
+}
+.loadDiv *:nth-child(3){
+
+	animation : load3 0.5s;
+	animation-iteration-count: infinite;
+}
+.loadDiv *:nth-child(4){
+
+	animation : load4 0.5s;
 	animation-iteration-count: infinite;
 }
 @-webkit-keyframes load1{
-  0%{ 	background:rgba(100,100,100,1.0);}
-  25%{ 	background:rgba(100,100,100,0.0);left:50%;}
-  50%{ 	background:rgba(100,100,100,0.0);}
-  75% {	background:rgba(100,100,100,0.0);rotate();}
-}
-
-.load2{
-	clear:both;
-	top:0;left:50%;
-	animation : load2 2s;
-	animation-iteration-count: infinite;
+  0%{	opacity:0.0; }
+  10%{ 	opacity:1.0; }
+  50%{ 	opacity:0.2; }
+  75%{	opacity:0.1; }
+  100%{	opacity:0.0; }
 }
 @-webkit-keyframes load2{
-  0%{ 	background:rgba(100,100,100,0.0);}
-  25%{ 	background:rgba(100,100,100,1.0);}
-  50%{ 	background:rgba(100,100,100,0.0);top:50%;}
-  75% {	background:rgba(100,100,100,0.0);}
-}
-
-
-.load3{
-	clear:both;
-	top:50%;left:50%;
-	animation : load3 2s;
-	animation-iteration-count: infinite;
+  0%{	opacity:0.0; }
+  25%{ 	opacity:0.0;}
+  35%{ 	opacity:1.0;}
+  75%{	opacity:0.2;}
+  100%{	opacity:0.1;}
 }
 @-webkit-keyframes load3{
-  0%{ 	background:rgba(100,100,100,0.0);}
-  25%{ 	background:rgba(100,100,100,0.0);}
-  50%{ 	background:rgba(100,100,100,1.0);}
-  75% {	background:rgba(100,100,100,0.0);left:0%;}
-}
-
-.load4{
-	clear:both;
-	top:50%;left:0%;
-	animation : load4 2s;
-	animation-iteration-count: infinite;
+  0%{	opacity:0.1;}
+  25%{ 	opacity:0.0;}
+  50%{ 	opacity:0.0;}
+  60%{	opacity:1.0;}
+  100%{	opacity:0.2;}
 }
 @-webkit-keyframes load4{
-  0%{ 	background:rgba(100,100,100,0.0);}
-  25%{ 	background:rgba(100,100,100,0.0);}
-  50%{ 	background:rgba(100,100,100,0.0);}
-  75% {	background:rgba(100,100,100,1.0);}
-  100%{ background:rgba(100,100,100,0.0);top:0%;}
+  0%{	opacity:0.2;}
+  25%{ 	opacity:0.1;}
+  50%{ 	opacity:0.0;}
+  75%{	opacity:0.0;}
+  90%{	opacity:1.0;}
 }
 

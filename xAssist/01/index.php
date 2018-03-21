@@ -74,13 +74,12 @@ $title="01.Speaker Recognition APIテスト";?>
 	<body>
 
 		<h1><?php echo $title;?></h1>
+		テスト
+			<span class="loadDiv">
+				<div></div><div></div>
+				<div></div><div></div>
+			</span>
 
-			<div class="loadDiv">
-				<div class="load1"></div>
-				<div class="load2"></div>
-				<div class="load3"></div>
-				<div class="load4"></div>
-		</div>
 		<h2>登録者</h2>
 			<button id="update">更新</button>
 			<table class="table">
@@ -103,7 +102,8 @@ $title="01.Speaker Recognition APIテスト";?>
 				<tfoot>
 				</tfoot>
 			</table>
-		<h2>1.声を登録</h2>
+		<h2>1.声を登録
+		</h2>
 			<ol>
 				<li>ユーザ名を入力して録音ボタンを押す。</li>
 				<li>録音は30秒以上の音声を登録すること</li>

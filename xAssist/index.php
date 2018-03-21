@@ -1,5 +1,5 @@
 <?php
-$title="Azure lab_0.3";
+$title="Azure lab_0.5";
 $date=date("Y/m/d H:i:s");
 ?>
 <html>
@@ -15,6 +15,10 @@ $date=date("Y/m/d H:i:s");
 	<body>
 		<h1><?php echo $title."_".$ver?></h1>
 		<h3>(<?php echo $date?>)</h3>
-		<a href="./01/index.php">01.Speaker Recognition APIテスト</a>
+		<oi>
+			<li>0.3 登録システムphp作成<a href="./01/index.php">01.Speaker Recognition APIテスト</a></li>
+			<li>0.5 (03/21～03/25)β作成</li>
+			<li>1.0 (03/26～03/30)完成1</li>
+		</oi>
 	</body>
 </html>
