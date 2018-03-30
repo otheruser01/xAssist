@@ -1,5 +1,5 @@
 <?php
-$title="01.Speaker Recognition APIテスト";?>
+$title="コールセンター";?>
 <html>
 	<head>
 		<title><?php echo $title;?></title>
@@ -12,14 +12,56 @@ $title="01.Speaker Recognition APIテスト";?>
 		<script>
 			var name="";
 			var rec=new recordClass();
+			var speech= new speechClass();
+			var chatBlock=new Array();
+			var newChatBlock=$('<div id="newChatBlock"></div>');
+		//音声入力の途中結果を書き出す。
+		speech.actRecoding(function(result){
+			$(newChatBlock).text(result);
+			$("#chat").append(newChatBlock);
+		});
+
+		//音声入力結果の最終結果を書き出す
+			speech.actActiveOk(function(result){
+				nowChat=result;
+				$("#chat").append('<div class="chatBlock">'+nowChat+'</div>');
+				$("#newChatBlock").remove();
+				speech.sttRec();
+			});
 		$(function(){
 			rec.init(window,$("body"));
-
-
-			//ユーザー登録
-			$("#record").click(function(){
-				rec.start();
+			//対応開始
+			$("#callStart").click(function(){
+				speech.sttRec();
+				rec.start(
+					function(myRec){
+						var analyser = myRec.audio_context.createAnalyser();
+						var timeDomain = new Float32Array(analyser.frequencyBinCount);
+						myRec.audio_context.createMediaStreamSource(myRec.stream).connect(analyser);
+						function animation(){
+							analyser.getFloatTimeDomainData(timeDomain);
+							var avg=0;
+							for(var i=0; i<timeDomain.length; i++){
+								avg+=Math.abs(timeDomain[i]);
+							}
+							avg=((avg/timeDomain.length)*1000)+10;
+							if(avg>100){
+								avg=100;
+							}
+							$(".wave").width(avg+"%");
+							$(".wave").css({"top":-avg+"%"});
+							requestAnimationFrame(animation);
+						};
+						animation();
+				}
+			);
 			});
+
+			//対応終了
+			$("#callEnd").click(function(){
+
+			});
+
 			$("#export").click(function(){
 				rec.appendFormData("mode", "insAndAdd");
 				rec.end();
@@ -72,51 +114,23 @@ $title="01.Speaker Recognition APIテスト";?>
 	</script>
 	</head>
 	<body>
+	<header>
+		<?php echo $title;?>
+	</header>
+	<nav>
+		<div id="callTop">
+			<button id="callStart">対応開始</button>
+			<div id="audioBlock"><div class="wave"></div></div>
+			<button id="callEnd">対応完了</button>
+		</div><br>
+		<div id="chat">
+		</div>
+	</nav>
+	<article>
 
-		<h1><?php echo $title;?></h1>
-		テスト
-			<span class="loadDiv">
-				<div></div><div></div>
-				<div></div><div></div>
-			</span>
 
-		<h2>登録者</h2>
-			<button id="update">更新</button>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>ユーザー名</th>
-						<th>AzureID</th>
-					</tr>
-				</thead>
-				<tbody id="list">
-					<tr>
-						<td>a</td>
-						<td>b</td>
-					</tr>
-					<tr>
-						<td>c</td>
-						<td>d</td>
-					</tr>
-				</tbody>
-				<tfoot>
-				</tfoot>
-			</table>
-		<h2>1.声を登録
-		</h2>
-			<ol>
-				<li>ユーザ名を入力して録音ボタンを押す。</li>
-				<li>録音は30秒以上の音声を登録すること</li>
-			</ol>
-			<br>
-			ユーザー名:<input type="text" id="userName"/>
-			<button id="record">録音</button>
-			<button id="export">録音終了</button>
-		<h2>2.声の主を認識</h2>
-			なんか喋ってください。<br>
-		<div></div>
-			<button id="idenRecord">録音</button>
-			<button id="idenExport">録音終了</button>
+	</article>
+
 		<audio id="audio"></audio>
 	</body>
 </html>
